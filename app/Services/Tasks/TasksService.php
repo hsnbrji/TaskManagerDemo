@@ -5,6 +5,7 @@ namespace App\Services\Tasks;
 use App\DTO\Tasks\TaskDTO;
 use App\Model\External\Meisertask\Task\MeisertaskTaskCreateParam;
 use App\Model\External\Meisertask\Task\MeisertaskTaskCreateResponse;
+use App\Models\Tasks\Task;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TasksService {
@@ -13,21 +14,42 @@ class TasksService {
      * Service that creates a task in Meistertask and saves it in the database
      *
      * @param $taskDto TaskDTO The task to be created
-     * @return TaskDTO
+     * @return TaskDTO The saved task
      */
-    public function createTask($taskDto): TaskDTO {
+    public function createTask(TaskDTO $taskDTO): TaskDTO {
 //        $createdTask = $this->createMeistertaskTask($taskDto);
-        $task = $taskDto->toTask();
+        $task = $taskDTO->toTask();
         $task->save();
-        $taskDto->id = $task->id;
-        return $taskDto;
+        return $taskDTO;
+    }
+
+    /**
+     * @param string $id Identifier of the task being updated
+     * @param TaskDTO $taskDTO The updated task
+     * @return TaskDTO The updated task
+     */
+    public function editTask(string $id, TaskDTO $taskDTO): TaskDTO {
+        $taskDTO->id = $id;
+        $task = $taskDTO->toTask();
+        $task->exists = true;
+        $task->save();
+        return $taskDTO;
+    }
+
+    public function getTasks() {
+        $tasksDTOs = array();
+        $tasks = Task::all();
+        foreach ($tasks as $task) {
+            array_push($tasksDTOs, new TaskDTO($task));
+        }
+        return $tasksDTOs;
     }
 
     /**
      * Calls Meisertask Apis to create a task
      *
      * @param TaskDTO $taskDTO
-     * @return TaskDTO
+     * @return TaskDTO The saved task
      */
     private function createMeistertaskTask(TaskDTO $taskDTO): TaskDTO {
         $client = new \GuzzleHttp\Client();
