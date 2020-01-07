@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Class TasksProvider
- * Contains the business logic CRUD operations on @Task
+ * A provider for tasks service
  * @package App\Providers\Tasks
  */
 class TasksProvider extends ServiceProvider {

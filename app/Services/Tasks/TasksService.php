@@ -8,6 +8,11 @@ use App\Model\External\Meisertask\Task\MeisertaskTaskCreateResponse;
 use App\Models\Tasks\Task;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * Class TasksService
+ * Contains the business logic CRUD operations on @Task
+ * @package App\Services\Tasks
+ */
 class TasksService {
 
     /**
