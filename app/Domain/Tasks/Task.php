@@ -29,6 +29,12 @@ class Task extends Model
      *
      * @var array
      */
+    protected $keyType = 'uuid';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'user_id', 'due', 'notes', 'status', 'section_id'
     ];

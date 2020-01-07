@@ -21,13 +21,32 @@ class TaskDTO {
     public $sectionId;
     public $sectionName;
 
+    public function __construct(?Task $task)
+    {
+        if ($task !== null) {
+            $this->id = $task->id;
+            $this->name = $task->name;
+            $this->userId = $task->user_id;
+            $this->due = $task->due;
+            $this->notes = $task->notes;
+            $this->status = $task->status;
+            $this->sectionId = $task->section_id;
+        }
+    }
+
     /**
      * Converts TaskDTO model to Task model
      * @return Task
      */
     public function toTask(): Task {
         $task = new Task();
-        $task->id = $this->id !== null ? $this->id : Str::uuid();
+        if ($this->id !== null) {
+            $task->id = $this->id;
+        } else {
+            $uuid = Str::uuid()->toString();
+            $task->id = $uuid;
+            $this->id = $uuid;
+        }
         $task->name = $this->name;
         $task->user_id = $this->userId;
         $task->due = $this->due;
