@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Tasks;
 use App\DTO\Tasks\TaskDTO;
 use App\Http\Controllers\Controller;
 use App\Providers\Tasks\TasksProvider;
+use App\Services\Tasks\TasksService;
 use Illuminate\Http\Request;
+use Karriere\JsonDecoder\JsonDecoder;
 
 /**
  * Class TasksController
@@ -24,25 +26,45 @@ class TasksController extends Controller
    |
    */
 
-    protected TasksProvider $tasksProvider;
+    protected TasksService $tasksService;
 
     /**
      * Create a new controller instance.
      *
-     * @param TasksProvider $tasksProvider
+     * @param TasksService $tasksService
      */
-    public function __construct(TasksProvider $tasksProvider)
+    public function __construct(TasksService $tasksService)
     {
-        $this->$tasksProvider = $tasksProvider;
+        $this->tasksService = $tasksService;
     }
 
     /**
      * @param Request $request
-     * @return TaskDTO the created task
+     * @return string json string of the created task
      */
-    public function createTask(Request $request): TaskDTO {
-        $taskDTO = json_decode($request);
-        return $this->tasksProvider->createTask($taskDTO);
+    public function createTask(Request $request): string {
+        $jsonDecoder = new JsonDecoder();
+        $taskDTO = $jsonDecoder->decode($request->getContent(), TaskDTO::class);
+        return json_encode($this->tasksService->createTask($taskDTO));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id string The id of the task to be edited
+     * @return string json string of the edited task
+     */
+    public function editTask(Request $request, $id): string {
+        $jsonDecoder = new JsonDecoder();
+        $taskDTO = $jsonDecoder->decode($request->getContent(), TaskDTO::class);
+        return json_encode($this->tasksService->editTask($id, $taskDTO));
+    }
+
+    /**
+     * @param Request $request
+     * @return string json string of all tasks
+     */
+    public function getTasks(Request $request): string {
+        return json_encode($this->tasksService->getTasks());
     }
 
 }
