@@ -2,6 +2,8 @@
 namespace App\DTO\Tasks;
 
 use App\Models\Tasks\Task;
+use Carbon\Traits\Date;
+use Illuminate\Support\Str;
 
 /**
  * Class TaskDTO
@@ -15,7 +17,7 @@ class TaskDTO {
     public $userId;
     public $due;
     public $notes;
-    public $status = \TaskStatusEnum::OPEN;
+    public $status;
     public $sectionId;
     public $sectionName;
 
@@ -25,7 +27,7 @@ class TaskDTO {
      */
     public function toTask(): Task {
         $task = new Task();
-        $task->id = $this->id;
+        $task->id = $this->id !== null ? $this->id : Str::uuid();
         $task->name = $this->name;
         $task->user_id = $this->userId;
         $task->due = $this->due;
