@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\Tasks\TasksService;
+
 return [
 
     /*
@@ -226,6 +228,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'TasksService' => TasksService::class,
 
     ],
 
