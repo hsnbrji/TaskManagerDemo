@@ -21,17 +21,28 @@ class TaskDTO {
     public $sectionId;
     public $sectionName;
 
-    public function __construct(?Task $task)
+    public function __construct()
     {
+
+    }
+
+    /**
+     * Converts Task model to TaskDTO model
+     * @param Task $task
+     * @return TaskDTO
+     */
+    public static function fromTask(Task $task): TaskDTO {
+        $taskDTO = new self();
         if ($task !== null) {
-            $this->id = $task->id;
-            $this->name = $task->name;
-            $this->userId = $task->user_id;
-            $this->due = $task->due;
-            $this->notes = $task->notes;
-            $this->status = $task->status;
-            $this->sectionId = $task->section_id;
+            $taskDTO->id = $task->id;
+            $taskDTO->name = $task->name;
+            $taskDTO->userId = $task->user_id;
+            $taskDTO->due = $task->due;
+            $taskDTO->notes = $task->notes;;
+            $taskDTO->status = $task->status;
+            $taskDTO->sectionId = $task->section_id;
         }
+        return $taskDTO;
     }
 
     /**
@@ -49,7 +60,7 @@ class TaskDTO {
         }
         $task->name = $this->name;
         $task->user_id = $this->userId;
-        $task->due = $this->due;
+        $task->due = new \DateTime($this->due);
         $task->notes = $this->notes;
         $task->status = $this->status;
         $task->section_id = $this->sectionId;

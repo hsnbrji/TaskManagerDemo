@@ -18,7 +18,7 @@ class TasksService {
     /**
      * Service that creates a task in Meistertask and saves it in the database
      *
-     * @param $taskDto TaskDTO The task to be created
+     * @param TaskDTO $taskDTO The task to be created
      * @return TaskDTO The saved task
      */
     public function createTask(TaskDTO $taskDTO): TaskDTO {
@@ -48,7 +48,7 @@ class TasksService {
         $tasksDTOs = array();
         $tasks = Task::all();
         foreach ($tasks as $task) {
-            array_push($tasksDTOs, new TaskDTO($task));
+            array_push($tasksDTOs, TaskDTO::fromTask($task));
         }
         return $tasksDTOs;
     }
@@ -60,7 +60,7 @@ class TasksService {
      */
     public function getTaskDetails($id): TaskDTO {
         $task = Task::find($id);
-        return new TaskDTO($task);
+        return TaskDTO::fromTask($task);
     }
 
     /**
