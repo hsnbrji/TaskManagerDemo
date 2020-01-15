@@ -67,4 +67,13 @@ class TasksController extends Controller
         return json_encode($this->tasksService->getTasks());
     }
 
+    /**
+     * @param Request $request
+     * @param $id string Id of the task
+     * @return string json string of all tasks
+     */
+    public function getTaskDetails(Request $request, $id): string {
+        return json_encode($this->tasksService->getTaskDetails($id));
+    }
+
 }

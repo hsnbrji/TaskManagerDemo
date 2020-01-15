@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/tasks', 'Tasks\TasksController@createTask');
 Route::patch('/tasks/{id}', 'Tasks\TasksController@editTask');
 Route::get('/tasks', 'Tasks\TasksController@getTasks');
+Route::get('/tasks/{id}', 'Tasks\TasksController@getTaskDetails');

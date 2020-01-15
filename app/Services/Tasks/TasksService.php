@@ -41,6 +41,9 @@ class TasksService {
         return $taskDTO;
     }
 
+    /**
+     * Gets all tasks from database
+     */
     public function getTasks() {
         $tasksDTOs = array();
         $tasks = Task::all();
@@ -48,6 +51,16 @@ class TasksService {
             array_push($tasksDTOs, new TaskDTO($task));
         }
         return $tasksDTOs;
+    }
+
+    /**
+     * Gets Details of a specific task
+     * @param $id
+     * @return TaskDTO
+     */
+    public function getTaskDetails($id): TaskDTO {
+        $task = Task::find($id);
+        return new TaskDTO($task);
     }
 
     /**
